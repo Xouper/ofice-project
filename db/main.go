@@ -1,5 +1,6 @@
 package db
 
+
 func InitDB() {
 	
 }
