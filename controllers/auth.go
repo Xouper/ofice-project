@@ -2,6 +2,7 @@ package controllers
 
 import (
 	//"fmt"
+
 	"learning/db"
 
 	"github.com/gin-gonic/gin"
@@ -18,14 +19,14 @@ func SaveUser(c *gin.Context) {
 	var body db.User
 	c.BindJSON(&body)
 	for _, value := range db.Users {
-		if body.Username == value.Username && body.Gender == value.Gender{
+		if body.Username == value.Username && body.Gender == value.Gender {
 			return
 		}
 	}
 	CreatUser(&body)
 }
 
-func SaveAsAdult(users []db.User) []db.User {
+func ReturnAdults(users []db.User) []db.User {
 	var Adults []db.User
 	for i := 0; i < len(users); i++ {
 		if users[i].Adult {
@@ -36,10 +37,13 @@ func SaveAsAdult(users []db.User) []db.User {
 }
 
 func ShowAllUsers(c *gin.Context) {
-	c.JSON(200, db.Users)
+	users := db.Users
+
+	QueryAdult := c.DefaultQuery("adult", "default")
+
+	if QueryAdult != "default" {
+		users = ReturnAdults(users)
+	}
+	c.JSON(200, users)
 }
 
-func ShowAdults(c *gin.Context) {
-	Adults := SaveAsAdult(db.Users)
-	c.JSON(200, Adults)
-}
