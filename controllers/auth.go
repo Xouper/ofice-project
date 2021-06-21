@@ -56,11 +56,11 @@ func ShowAllUsers(c *gin.Context) {
 	}
 	c.JSON(200, users)
 
-	QueryGender := c.Query("gender")
+ 	QueryGender := c.Query("gender")
 	
 	if QueryGender {
-		users = ReturnFemale(users, QueryGender)
+	users = ReturnFemale(users, QueryGender)
 	}
-	c.JSON(200, users)
+ 	c.JSON(200, users)
 }
 	
