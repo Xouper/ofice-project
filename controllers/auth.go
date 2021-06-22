@@ -13,6 +13,8 @@ func CreatUser(u *db.User) {
 		u.Adult = true
 	}
 	db.Users = append(db.Users, *u)
+	db.AssignId(u)
+//	db.SaveNewUserToFile(u)
 }
 
 func SaveUser(c *gin.Context) {

@@ -1,7 +1,7 @@
 package db
 
 type User struct {
-	//ID       int     `json:"id"`
+	ID       int     `json:"id"`
 	Username string  `json:"username"`
 	Password string  `json:"password"`
 	Height   float64 `json:"height"`
@@ -11,3 +11,7 @@ type User struct {
 }
 
 var Users []User
+
+func AssignId(user *User){
+	
+}

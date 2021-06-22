@@ -2,13 +2,13 @@ package main
 
 import (
 	"learning/controllers"
-	//"learning/db"
+	"learning/db"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	//db.InitDB()
+	db.InitDB()
 
 	r := gin.Default()
 
