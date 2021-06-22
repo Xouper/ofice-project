@@ -36,14 +36,14 @@ func ReturnAdults(users []db.User) []db.User {
 	return Adults
 }
 
-func ReturnFemale(users []db.User, query string) []db.User {
-	var Women []db.User
+func FilterGender(users []db.User, gender string) []db.User {
+	var FilteredUsers []db.User
 	for i := 0; i < len(users); i++ {
-		if users[i].Gender == "female" {
-			Women = append(Women, users[i])
+		if users[i].Gender  == gender {
+			FilteredUsers = append(FilteredUsers, users[i])
 		}
 	}
-	return Women
+	return FilteredUsers
 }
 
 func ShowAllUsers(c *gin.Context) {
@@ -54,13 +54,12 @@ func ShowAllUsers(c *gin.Context) {
 	if QueryAdult != "default" {
 		users = ReturnAdults(users)
 	}
-	c.JSON(200, users)
 
- 	QueryGender := c.Query("gender")
+	QueryGender := c.Query("gender")
 	
-	if QueryGender {
-	users = ReturnFemale(users, QueryGender)
+	if QueryGender != ""{
+		users = FilterGender(users, QueryGender)
 	}
- 	c.JSON(200, users)
+	c.JSON(200, users)
 }
 	
