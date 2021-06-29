@@ -7,11 +7,11 @@ type User struct {
 	Height   float64 `json:"height"`
 	Gender   string  `json:"gender"`
 	Age      int     `json:"age"`
-	Adult    bool
+	Adult    bool    `json:"adult"`
 }
 
 var Users []User
 
-func AssignId(user *User){
-	
+func AddId(user *User) {
+	user.ID = len(Users) + 1
 }

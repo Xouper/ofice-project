@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	//"fmt"
 
 	"learning/db"
 
@@ -9,23 +8,28 @@ import (
 )
 
 func CreatUser(u *db.User) {
+	db.AddId(u)
 	if u.Age > 18 {
 		u.Adult = true
 	}
 	db.Users = append(db.Users, *u)
-	db.AssignId(u)
-//	db.SaveNewUserToFile(u)
+	db.SaveNewUserToFile(u)
 }
 
 func SaveUser(c *gin.Context) {
 	var body db.User
-	c.BindJSON(&body)
+	err := c.BindJSON(&body)
+	if err != nil {
+		c.JSON(400, err.Error())
+		return
+	}
 	for _, value := range db.Users {
 		if body.Username == value.Username && body.Gender == value.Gender {
 			return
 		}
 	}
 	CreatUser(&body)
+	c.JSON(200, body)
 }
 
 func ReturnAdults(users []db.User) []db.User {
@@ -41,7 +45,7 @@ func ReturnAdults(users []db.User) []db.User {
 func FilterGender(users []db.User, gender string) []db.User {
 	var FilteredUsers []db.User
 	for i := 0; i < len(users); i++ {
-		if users[i].Gender  == gender {
+		if users[i].Gender == gender {
 			FilteredUsers = append(FilteredUsers, users[i])
 		}
 	}
@@ -58,10 +62,9 @@ func ShowAllUsers(c *gin.Context) {
 	}
 
 	QueryGender := c.Query("gender")
-	
-	if QueryGender != ""{
+
+	if QueryGender != "" {
 		users = FilterGender(users, QueryGender)
 	}
 	c.JSON(200, users)
 }
-	
