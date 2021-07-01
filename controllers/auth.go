@@ -1,7 +1,6 @@
 package controllers
 
 import (
-
 	"learning/db"
 
 	"github.com/gin-gonic/gin"

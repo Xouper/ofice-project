@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"bytes"
 	"fmt"
 	"learning/db"
 
@@ -16,8 +17,10 @@ func CreatQrc(c *gin.Context) {
 		fmt.Printf("could not generate QRCode: %v", err)
 	}
 
-	// save file
-	if err := qrc.Save("db/web-site.jpeg"); err != nil {
-		fmt.Printf("could not save image: %v", err)
-	}
+	test := bytes.Buffer{}
+
+	qrc.SaveTo(&test)
+	r := bytes.NewReader(test.Bytes())
+	extraHeaders := map[string]string{}
+	c.DataFromReader(200, r.Size(), "image/jpeg", r, extraHeaders)
 }
