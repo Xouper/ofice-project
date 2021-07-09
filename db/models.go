@@ -15,3 +15,11 @@ var Users []User
 func AddId(user *User) {
 	user.ID = len(Users) + 1
 }
+
+func GetUserById(ID *int, UserID *User) *User {
+	var UserWithId *User
+	if ID == &UserID.ID { 
+		UserWithId = UserID
+	}
+	return UserWithId
+}
